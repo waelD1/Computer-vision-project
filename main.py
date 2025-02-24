@@ -2,6 +2,7 @@ from utils import read_video, save_video
 from trackers import Tracker
 import cv2
 from team_assigner import TeamAssigner
+from player_ball_assigner import PlayerBallAssigner
 
 def main():
     # Read the video file
@@ -12,6 +13,10 @@ def main():
 
     # Aplly the tracker to the video
     tracks = tracker.get_object_tracks(video_frames, read_from_fragment = True, fragment_path = 'fragments/track_fragments.pkl')
+
+    # Interpolate ball positions to fill in missing values 
+    # It allows the pointer to be present in all frames
+    tracks['ball'] = tracker.interpolate_ball_positions(tracks['ball'])
 
     # Assign team to the players
     team_assigner = TeamAssigner()
@@ -26,8 +31,18 @@ def main():
             # Save the team and team color in the tracks
             tracks['players'][frame_num][player_id]['team'] = team
             tracks['players'][frame_num][player_id]['team_color'] = team_assigner.team_colors[team]
-                                                
-            
+
+    # Assign the ball to 
+    player_assigner = PlayerBallAssigner()
+    # Loop over each player in each frame and determine if which player has the ball
+    for frame_num, player_track in enumerate(tracks['players']):
+        ball_bbox = tracks['ball'][frame_num][1]['bbox']
+        assigned_player = player_assigner.assign_ball_to_player(player_track, ball_bbox)
+
+        if assigned_player != -1:
+            tracks['players'][frame_num][assigned_player]['has_ball'] = True
+
+
     # Draw output
     ## Draw object Tracks
     output_video_frames = tracker.draw_annotations(video_frames, tracks)

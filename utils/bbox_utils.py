@@ -27,3 +27,25 @@ def get_bbox_width(bbox):
     # bbox[2] - bbox[0] is the same as x2 - x1 (because bbox = x1, y1, x2, y2)
 
     return bbox[2]-bbox[0]
+
+
+
+def measure_distance(p1, p2):
+    """
+    Computes the Euclidean distance between two points in a 2D space.
+
+    Args:
+        p1 (tuple): The first point as (x1, y1).
+        p2 (tuple): The second point as (x2, y2).
+
+    Returns:
+        float: The Euclidean distance between p1 and p2.
+    """
+    # Compute the squared difference in x-coordinates
+    dx_squared = (p1[0] - p2[0]) ** 2
+
+    # Compute the squared difference in y-coordinates
+    dy_squared = (p1[1] - p2[1]) ** 2
+
+    # Sum the squared differences and take the square root (Euclidean distance formula)
+    return (dx_squared + dy_squared) ** 0.5

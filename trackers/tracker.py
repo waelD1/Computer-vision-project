@@ -1,5 +1,6 @@
 from ultralytics import YOLO
 import supervision as sv
+import pandas as pd
 import numpy as np
 import cv2
 import os
@@ -14,6 +15,39 @@ class Tracker:
     def __init__(self, model_path):
         self.model = YOLO(model_path)
         self.tracker = sv.ByteTrack() 
+
+
+
+    def interpolate_ball_positions(self, ball_positions):
+        """
+        Interpolates missing ball position values in a sequence of bounding boxes.
+
+        Args:
+            ball_positions (list of dict): A list where each element is a dictionary of the form:
+                {1: {'bbox': [x1, y1, x2, y2]}}.
+                Some bounding boxes may have missing values.
+
+        Returns:
+            list of dict: A list with the same format, but with missing values interpolated.
+        """
+
+        # Extract bounding box coordinates from the input list
+        # If bbox is missing, return an empty list as a default
+        ball_positions = [x.get(1, {}).get('bbox', []) for x in ball_positions]
+
+        # Convert the extracted bounding box list into a Pandas DataFrame
+        df_ball_positions = pd.DataFrame(ball_positions, columns=['x1', 'y1', 'x2', 'y2'])
+
+        # Interpolate missing values linearly based on previous and next values
+        df_ball_positions = df_ball_positions.interpolate()
+
+        # Fill any remaining missing values with the last known valid value
+        df_ball_positions = df_ball_positions.bfill()
+
+        # Convert the DataFrame back into the original dictionary format
+        ball_positions = [{1: {'bbox': x}} for x in df_ball_positions.to_numpy().tolist()]
+
+        return ball_positions
 
 
     def detect_frames(self, frames):
@@ -188,6 +222,10 @@ class Tracker:
                 # The default color is blue if the team color is not available
                 color = player.get("team_color", (0, 0, 255))
                 frame = self.draw_ellipse(frame, player["bbox"], color, track_id)
+
+                # Draw a red triangle to the player that has the ball
+                if player.get("has_ball", False):
+                    frame = self.draw_triangle(frame, player["bbox"], (0, 0, 255))
 
             # Draw Referee
             # Referee tracker is in yellow color
