@@ -105,6 +105,12 @@ class TeamAssigner:
         # We want the team_id to be 1 or 2
         team_id +=1
 
+        # The goal keeper has another color than its team, so the ball control statistics are not correctly taking him into account
+        # We fix that by assigning the goal keeper number to its team
+        if player_id == 81: # 81 is the ID of the goal keeper
+            team_id = 1
+
+
         # Save the player_id and team_id to not have to run the kmeans model again for this player
         self.player_team_dict[player_id] = team_id
 
