@@ -5,6 +5,7 @@ import numpy as np
 from team_assigner import TeamAssigner
 from player_ball_assigner import PlayerBallAssigner
 from camera_movement_estimator import CameraMovementEstimator
+from view_transformer import ViewTransformer
 
 def main():
     # Read the video file
@@ -24,6 +25,11 @@ def main():
     camera_movement_per_frame = camera_movement_estimator.get_camera_movement(video_frames, 
                                                                                 read_from_fragment = True,
                                                                                 fragment_path = 'fragments/camera_movement_fragments.pkl')
+    camera_movement_estimator.add_adjust_positions_to_tracks(tracks, camera_movement_per_frame)
+
+    # View transformation
+    view_transformer = ViewTransformer()
+    view_transformer.add_transformed_position_to_tracks(tracks)
 
     # Interpolate ball positions to fill in missing values 
     # It allows the pointer to be present in all frames
