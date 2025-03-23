@@ -49,3 +49,23 @@ def measure_distance(p1, p2):
 
     # Sum the squared differences and take the square root (Euclidean distance formula)
     return (dx_squared + dy_squared) ** 0.5
+
+
+def measure_xy_distance(p1, p2):
+    """
+    Computes the difference in x and y coordinates between two points in 2D space.
+
+    :param p1: Tuple representing the first point (x1, y1).
+    :param p2: Tuple representing the second point (x2, y2).
+    :return: A tuple (dx, dy) representing the differences in x and y.
+    """
+    return p1[0] - p2[0], p1[1] - p2[1]
+
+
+def get_foot_position(bbox):
+    """
+    Get the foot position of the bounding box
+    """
+    x1, y1, x2, y2 = bbox
+    return int((x1 + x2) / 2), int(y2)
+
