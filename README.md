@@ -8,9 +8,7 @@ A real-time football match analysis system that detects and tracks players, refe
 
 **Input — raw match footage**
 
-https://github.com/waelD1/Computer-vision-project/blob/main/output_videos/output_video.avi
-
-> Raw video: `data/08fd33_4.mp4`
+https://github.com/waelD1/Computer-vision-project/blob/main/data/08fd33_4.mp4
 
 **Output — fully annotated video**
 
