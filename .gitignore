@@ -1,2 +1,10 @@
 .env
 training
+fragments/
+models/
+data/
+output_videos/
+runs/
+*.pt
+*.pkl
+.DS_Store
