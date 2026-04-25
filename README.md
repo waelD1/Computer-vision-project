@@ -12,7 +12,7 @@ https://github.com/waelD1/Computer-vision-project/blob/main/data/08fd33_4.mp4
 
 **Output — fully annotated video**
 
-https://github.com/waelD1/Computer-vision-project/blob/main/output_videos/output_video.avi
+https://github.com/waelD1/Computer-vision-project/blob/main/output_videos/output_video.mp4
 
 > Each player is color-coded by team, assigned a tracking ID, and ball possession stats are displayed in real time.
 
@@ -111,6 +111,6 @@ Place your model weights in `models/best.pt` and your input video in `data/08fd3
 python main.py
 ```
 
-The annotated video will be saved to `output_videos/output_video.avi`.
+The annotated video will be saved to `output_videos/output_video.mp4`.
 
 > **Note:** On the first run, detection and camera movement results are cached as `.pkl` files in `fragments/` to speed up subsequent runs.
