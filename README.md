@@ -8,11 +8,11 @@ A real-time football match analysis system that detects and tracks players, refe
 
 **Input — raw match footage**
 
-https://github.com/waelD1/Computer-vision-project/blob/main/data/08fd33_4.mp4
+![input](data/input_video.gif)
 
 **Output — fully annotated video**
 
-https://github.com/waelD1/Computer-vision-project/blob/main/output_videos/output_video.mp4
+![output](output_videos/output_video.gif)
 
 > Each player is color-coded by team, assigned a tracking ID, and ball possession stats are displayed in real time.
 
